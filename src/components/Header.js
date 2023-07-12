@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import transitions from "bootstrap";
 
-const Header = ({ active, setActive, user, handleLogout }) => {
+const Header = ({ setActive,active, user, handleLogout }) => {
   const userId = user?.uid;
+  //console.log(userId);
+  //console.log(user?.displayName);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid bg-faded padding-media">

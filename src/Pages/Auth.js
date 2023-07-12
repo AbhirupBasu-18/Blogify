@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
-const Auth = ({ setActive, setUser }) => {
+const Auth = ({ setActive }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -38,18 +38,21 @@ const Auth = ({ setActive, setUser }) => {
     e.preventDefault();
     if (!signUp) {
       if (email && password) {
-        try {
-          const { user } = await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-          );
-        } catch (error) {
+        try{
+        const { user } = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        //setUser(user);
+        }
+        catch(error){
           const errorCode = error.code;
           console.log("hi");
-          if (errorCode == "auth/user-not-found") {
+          if(errorCode=="auth/user-not-found"){
             return toast.error("Invalid Email");
-          } else {
+          }
+          else{
             return toast.error("Invalid Password");
           }
         }
@@ -58,30 +61,32 @@ const Auth = ({ setActive, setUser }) => {
         return toast.error("All fields are mandatory to fill");
       }
     } else {
+      
       if (firstName && lastName && email && password && confirmPassword) {
         if (password !== confirmPassword) {
           return toast.error("Password don't match");
-        } else {
-          try {
-            const { user } = await createUserWithEmailAndPassword(
-              auth,
-              email,
-              password
-            );
-            await updateProfile(user, {
-              displayName: `${firstName} ${lastName}`,
-            });
-          } catch (error) {
-            const errorCode = error.code;
-            //console.log(errorCode);
-            if (errorCode == "auth/email-already-in-use") {
-              return toast.error("email-already-in-use");
-            } else {
-              return toast.error("password less than 6 digits");
-            }
-          }
-          setActive("home");
         }
+        else{
+          try{
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        await updateProfile(user, { displayName: `${firstName} ${lastName}` });
+          }
+          catch(error){
+            const errorCode = error.code;
+              //console.log(errorCode);
+              if(errorCode=="auth/email-already-in-use"){
+                return toast.error("email-already-in-use");
+              }
+              else{
+                return toast.error("password less than 6 digits");
+              }
+          }
+        setActive("home");
+      }
       } else {
         return toast.error("All fields are mandatory to fill");
       }
@@ -210,3 +215,4 @@ const Auth = ({ setActive, setUser }) => {
 };
 
 export default Auth;
+
