@@ -45,7 +45,7 @@ function App() {
         <Route path="/" element={<Home/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
         <Route path="/about" element={<About/>}/>
-        <Route path="/auth" element={<Auth setActive={setActive}/>}/>
+        <Route path="/auth" element={<Auth setActive={setActive} setUser={setUser}/>}/>
         <Route path="/create" element={<AddEditBlog/>}/>
         <Route path="/update:id" element={<AddEditBlog/>}/>
         <Route path="*" element={<NotFound/>}/>

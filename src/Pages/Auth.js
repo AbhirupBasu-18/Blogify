@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
 
-const Auth = ({ setActive }) => {
+const Auth = ({ setActive, setUser }) => {
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -44,7 +44,7 @@ const Auth = ({ setActive }) => {
           email,
           password
         );
-        //setUser(user);
+        setUser(user);
         }
         catch(error){
           const errorCode = error.code;

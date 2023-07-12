@@ -79,10 +79,11 @@ const Header = ({ setActive,active, user, handleLogout }) => {
                             height: "30px",
                             borderRadius: "50%",
                             marginTop: "12px",
+                            //marginRight:"5px",
                           }}
                         />
                       </div>
-                      <p style={{ marginTop: "12px", marginLeft: "5px" }}>
+                      <p style={{ marginTop: "12px", marginLeft: "12px" }}>
                         {user?.displayName}
                       </p>
                       <li className="nav-item nav-link" onClick={handleLogout}>
