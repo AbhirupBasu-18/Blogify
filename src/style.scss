@@ -46,9 +46,9 @@ $yellow: #90EE90;
 // Header
 .name{
     padding-top: 12px!important;
-	padding-bottom: 7px!important;
-	padding-left: 20px!important;
-	padding-right: 20px!important;
+	padding-bottom: 0px!important;
+	padding-left: 0px!important;
+	padding-right: 0px!important;
 	margin: 0 20px!important;
     color:green;
 }
@@ -75,8 +75,8 @@ $yellow: #90EE90;
 	@include clip-path(polygon(100% 0, 100% 85%, 14% 85%, 0 100%, 0% 60%, 0 0));
 
 	&:focus, &:hover {
-		background: $yellow!important;
-		color: #fff!important;
+		//background: $yellow!important;
+		//color: #fff!important;
 		padding-top: 12px!important;
 		padding-bottom: 15px!important;
 		padding-left: 20px!important;
