@@ -58,14 +58,14 @@ const AddEditBlog = ({ user, setActive }) => {
           //console.log(snapshot.metadata?.contentType);
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log("Upload is " + progress + "% done");
+         // console.log("Upload is " + progress + "% done");
           setProgress(progress);
           switch (snapshot.state) {
             case "paused":
-              console.log("Upload is paused");
+              //console.log("Upload is paused");
               break;
             case "running":
-              console.log("Upload is running");
+              //console.log("Upload is running");
               break;
             default:
               break;
@@ -118,8 +118,9 @@ const AddEditBlog = ({ user, setActive }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (category && tags && title && description && trending) {
+    if (category && tags && title && description && trending && file) {
       if (!id) {
+        //console.log(user);
         try {
           await addDoc(collection(db, "blogs"), {
             ...form,
@@ -147,7 +148,7 @@ const AddEditBlog = ({ user, setActive }) => {
     } else {
       return toast.error("All fields are mandatory to fill");
     }
-
+setActive("home");
     navigate("/");
   };
 

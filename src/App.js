@@ -16,6 +16,7 @@ import Auth from './Pages/Auth';
 import {auth} from './firebase';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
+import { Navigate } from 'react-router-dom';
 function App() {
   const [active,setActive]=useState("home");
   const [user,setUser]=useState("null");
@@ -42,12 +43,12 @@ function App() {
       <Header setActive={setActive} active={active}  user={user} handleLogout={handleLogout}/>
       <ToastContainer position='top-center'/>
       <Routes>
-        <Route path="/" element={<Home/>}/>
+        <Route path="/" element={<Home setActive={setActive}/>}/>
         <Route path='/detail/:id' element={<Detail/>}/>
         <Route path="/about" element={<About/>}/>
         <Route path="/auth" element={<Auth setActive={setActive} setUser={setUser}/>}/>
-        <Route path="/create" element={<AddEditBlog/>}/>
-        <Route path="/update:id" element={<AddEditBlog/>}/>
+        <Route path="/create" element={user?<AddEditBlog user={user} setActive={setActive}/>: <Navigate to="/"/>}/>
+        <Route path="/update:id" element={user?<AddEditBlog user={user} setActive={setActive}/>: <Navigate to="/"/>}/>
         <Route path="*" element={<NotFound/>}/>
       </Routes>
     </div>
