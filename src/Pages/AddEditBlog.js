@@ -35,6 +35,7 @@ const categoryOption = [
 ];
 
 const AddEditBlog = ({ user, setActive }) => {
+  //console.log("hi");
   const [form, setForm] = useState(initialState);
   const [file, setFile] = useState(null);
   const [progress, setProgress] = useState(null);
@@ -87,13 +88,16 @@ const AddEditBlog = ({ user, setActive }) => {
   }, [file]);
 
   useEffect(() => {
+    
     id && getBlogDetail();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const getBlogDetail = async () => {
+    console.log("hi");
     const docRef = doc(db, "blogs", id);
     const snapshot = await getDoc(docRef);
+    console.log("hi");
     if (snapshot.exists()) {
       setForm({ ...snapshot.data() });
     }

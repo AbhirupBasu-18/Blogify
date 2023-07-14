@@ -11,7 +11,18 @@ const Header = ({ setActive,active, user, handleLogout }) => {
       <div className="container-fluid bg-faded padding-media">
         <div className="container padding-media">
           <nav className="navbar navbar-toggleable-md navbar-light"> 
-            
+          <button
+              className="navbar-toggler mt-3"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarSupportedContent"
+              data-bs-parent="#navbarSupportedContent"
+              aria-controls="navbarSupportedContent"
+              aria-expanded="true"
+              aria-label="Toggle Navigation"
+            >
+              <span className="fa fa-bars"></span>
+            </button>
             <div
               className="collapse navbar-collapse"
               id="navbarSupportedContent"

@@ -20,8 +20,9 @@ import FeatureBlogs from "../components/FeatureBlogs";
 import Trending from "../components/Trending";
 import Search from "../components/Search";
 import { isEmpty, isNull } from "lodash";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Category from "../components/Category";
+import { reload } from "firebase/auth";
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -39,7 +40,7 @@ const Home = ({ setActive, user, active }) => {
   const queryString = useQuery();
   const searchQuery = queryString.get("searchQuery");
   const location = useLocation();
-
+  const navigate = useNavigate();
   const getTrendingBlogs = async () => {
     const blogRef = collection(db, "blogs");
     const trendQuery = query(blogRef, where("trending", "==", "yes"));
@@ -74,13 +75,13 @@ const Home = ({ setActive, user, active }) => {
         console.log(error);
       }
     );
-//clean up function
+
     return () => {
       unsub();
       getTrendingBlogs();
     };
   }, [setActive,active]);
-//console.log(totalBlogs);
+
   useEffect(() => {
     getBlogs();
     setHide(false);
@@ -88,7 +89,7 @@ const Home = ({ setActive, user, active }) => {
 
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
-    //console.log(blogRef);
+    console.log(blogRef);
     const firstFour = query(blogRef, orderBy("title"), limit(4));
     const docSnapshot = await getDocs(firstFour);
     setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
@@ -163,10 +164,38 @@ const Home = ({ setActive, user, active }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure wanted to delete that blog ?")) {
       try {
-        setLoading(true);
+        //setLoading(true);
         await deleteDoc(doc(db, "blogs", id));
-        toast.success("Blog deleted successfully");
+        getTrendingBlogs();
+    setSearch("");
+    const unsub = onSnapshot(
+      collection(db, "blogs"),
+      (snapshot) => {
+        let list = [];
+        let tags = [];
+        snapshot.docs.forEach((doc) => {
+          tags.push(...doc.get("tags"));
+          list.push({ id: doc.id, ...doc.data() });
+        });
+        const uniqueTags = [...new Set(tags)];
+        setTags(uniqueTags);
+        setTotalBlogs(list);
+        // setBlogs(list);
         setLoading(false);
+        setActive("home");
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+    const blogRef = collection(db, "blogs");
+    console.log(blogRef);
+    const firstFour = query(blogRef, orderBy("title"), limit(4));
+    const docSnapshot = await getDocs(firstFour);
+    setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+    setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
+        toast.success("Blog deleted successfully");
+        //setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -201,7 +230,7 @@ const Home = ({ setActive, user, active }) => {
     };
   });
 
-  //console.log("categoryCount", categoryCount);
+  console.log("categoryCount", categoryCount);
 
   return (
     <div className="container-fluid pb-4 pt-4 padding">
