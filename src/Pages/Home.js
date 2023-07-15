@@ -21,7 +21,6 @@ import Trending from "../components/Trending";
 import Search from "../components/Search";
 import { isEmpty, isNull } from "lodash";
 import { useLocation, useNavigate } from "react-router-dom";
-import Category from "../components/Category";
 import { reload } from "firebase/auth";
 
 function useQuery() {
@@ -90,8 +89,8 @@ const Home = ({ setActive, user, active }) => {
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
     console.log(blogRef);
-    const firstFour = query(blogRef, orderBy("title"), limit(4));
-    const docSnapshot = await getDocs(firstFour);
+   // const firstFour = query(blogRef, orderBy("title"), limit(4));
+    const docSnapshot = await getDocs(blogRef);
     setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
   };
@@ -267,7 +266,6 @@ const Home = ({ setActive, user, active }) => {
             <div className="blog-heading text-start py-2 mb-4">Tags</div>
             <Tags tags={tags} />
             <FeatureBlogs title={"Most Popular"} blogs={blogs} />
-            <Category catgBlogsCount={categoryCount} />
           </div>
         </div>
       </div>

@@ -18,7 +18,6 @@ import { toast } from "react-toastify";
 import CommentBox from "../components/CommentBox";
 import Like from "../components/Like";
 import FeatureBlogs from "../components/FeatureBlogs";
-import RelatedBlog from "../components/RelatedBlog";
 import Tags from "../components/Tags";
 import UserComments from "../components/UserComments";
 import { db } from "../firebase";
@@ -183,7 +182,6 @@ const Detail = ({ setActive, user }) => {
               <FeatureBlogs title={"Recent Blogs"} blogs={blogs} />
             </div>
           </div>
-          <RelatedBlog id={id} blogs={relatedBlogs} />
         </div>
       </div>
     </div>
