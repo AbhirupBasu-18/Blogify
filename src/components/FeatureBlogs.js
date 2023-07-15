@@ -6,7 +6,7 @@ const FeatureBlogs = ({ blogs, title }) => {
   return (
     <div>
       <div className="blog-heading text-start pt-3 py-2 mb-4">{title}</div>
-      {blogs?.map((item) => (
+      {blogs.length?blogs?.map((item) => (
         <div
           className="row pb-3"
           key={item.id}
@@ -27,7 +27,7 @@ const FeatureBlogs = ({ blogs, title }) => {
             </div>
           </div>
         </div>
-      ))}
+      )):<div>No Blogs available</div>}
     </div>
   );
 };

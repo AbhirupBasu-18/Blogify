@@ -150,7 +150,7 @@ const Home = ({ setActive, user, active }) => {
                 handleDelete={handleDelete}
                 {...blog}
               />
-            )):<div></div>}
+            )):<div>Add Blogs</div>}
 
           </div>
           <div className="col-md-3">
