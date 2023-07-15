@@ -6,7 +6,7 @@ import About from './Pages/About';
 import Detail from './Pages/Detail';
 import AddEditBlog from './Pages/AddEditBlog';
 import NotFound from './Pages/NotFound';
-import { ToastContainer,toast} from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {Routes, Route } from "react-router-dom";
 import Header from './components/Header';
