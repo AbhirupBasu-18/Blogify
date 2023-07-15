@@ -5,8 +5,6 @@ import transitions from "bootstrap";
 
 const Header = ({ setActive,active, user, handleLogout }) => {
   const userId = user?.uid;
-  //console.log(userId);
-  //console.log(user?.displayName);
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light">
       <div className="container-fluid bg-faded padding-media">

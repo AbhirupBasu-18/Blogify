@@ -32,7 +32,7 @@ const BlogSection = ({
               <span className="title py-2">{title}</span>
               <span className="meta-info">
                 <p className="author">{author}</p> -&nbsp;
-                {timestamp.toDate().toDateString()}
+                {timestamp?.toDate()?.toDateString()}
               </span>
             </div>
             <div className="short-description text-start">

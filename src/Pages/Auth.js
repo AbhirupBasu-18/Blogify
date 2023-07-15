@@ -3,7 +3,7 @@ import {
   signInWithEmailAndPassword,
   updateProfile,
 } from "firebase/auth";
-import React, { useState } from "react";
+import React, {useState } from "react";
 import { toast } from "react-toastify";
 import { auth } from "../firebase";
 import { useNavigate } from "react-router-dom";
@@ -93,7 +93,21 @@ const Auth = ({ setActive, setUser }) => {
     }
     navigate("/");
   };
-
+  window.onbeforeunload = function(e)
+  {
+      localStorage.setItem('reload-url', window.location.href);
+  }
+  window.onload = function(e)
+  {
+      if (localStorage.getItem('reload-url') !== null)
+      {
+          if (window.location.href === localStorage.getItem('reload-url'))
+          {
+             setActive("home"); 
+             navigate("/");
+          }
+      }
+  }
   return (
     <div className="container-fluid mb-4">
       <div className="container">

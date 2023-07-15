@@ -17,9 +17,13 @@ import {auth} from './firebase';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { Navigate } from 'react-router-dom';
+
 function App() {
-  const [active,setActive]=useState("home");
-  const [user,setUser]=useState("null");
+  const [active, setActive] = useState("home");
+  const [user, setUser] = useState(null);
+
+  const navigate = useNavigate();
+
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       if (authUser) {
@@ -29,7 +33,7 @@ function App() {
       }
     });
   }, []);
-  const navigate = useNavigate();
+
   const handleLogout = () => {
     signOut(auth).then(() => {
       setUser(null);
@@ -37,18 +41,47 @@ function App() {
       navigate("/auth");
     });
   };
+
   return (
     <div className="App">
-      <Header setActive={setActive} active={active}  user={user} handleLogout={handleLogout}/>
-      <ToastContainer position='top-center'/>
+      <Header
+        setActive={setActive}
+        active={active}
+        user={user}
+        handleLogout={handleLogout}
+      />
+      <ToastContainer position="top-center" />
       <Routes>
-        <Route path="/" element={<Home setActive={setActive} user={user} active={active}/>}/>
-        <Route path="/detail/:id" element={<Detail setActive={setActive} user={user}/>}/>
-        <Route path="/about" element={<About/>}/>
-        <Route path="/auth" element={<Auth setActive={setActive} setUser={setUser}/>}/>
-        <Route path="/create" element={user?<AddEditBlog user={user} setActive={setActive}/>: <Navigate to="/"/>}/>
-        <Route path="/update/:id" element={user?<AddEditBlog user={user} setActive={setActive}/>: <Navigate to="/"/>}/>
-        <Route path="*" element={<NotFound/>}/>
+        <Route
+          path="/"
+          element={<Home setActive={setActive} active={active} user={user} />}
+        />
+        <Route
+          path="/detail/:id"
+          element={<Detail setActive={setActive} user={user} />}
+        />
+        <Route
+          path="/create"
+          element={
+            user?.uid ? <AddEditBlog user={user} setActive={setActive}/> : <Navigate to="/" />
+          }
+        />
+        <Route
+          path="/update/:id"
+          element={
+            user?.uid ? (
+              <AddEditBlog user={user} setActive={setActive} />
+            ) : (
+              <Navigate to="/" />
+            )
+          }
+        />
+        <Route path="/about" element={<About setActive={setActive}/>} />
+        <Route
+          path="/auth"
+          element={<Auth setActive={setActive} setUser={setUser} />}
+        />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

@@ -4,7 +4,7 @@ const Tags = ({ tags }) => {
   return (
     <div>
       <div className="tags">
-        {tags.length?tags?.map((tag, index) => (
+        {tags?.length?tags?.map((tag, index) => (
           <p className="tag" key={index}>
               {tag}
           </p>

@@ -92,7 +92,7 @@ const Home = ({ setActive, user, active }) => {
       setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
   };
 
-  console.log("blogs", blogs);
+  //console.log("blogs", blogs);
 
   if (loading) {
     return <Spinner />;
