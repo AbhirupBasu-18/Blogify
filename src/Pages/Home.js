@@ -18,7 +18,6 @@ import { toast } from "react-toastify";
 import Tags from "../components/Tags";
 import FeatureBlogs from "../components/FeatureBlogs";
 import Trending from "../components/Trending";
-import Search from "../components/Search";
 import { isEmpty, isNull } from "lodash";
 import { useLocation, useNavigate } from "react-router-dom";
 import { reload } from "firebase/auth";
@@ -89,15 +88,15 @@ const Home = ({ setActive, user, active }) => {
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
     console.log(blogRef);
-   // const firstFour = query(blogRef, orderBy("title"), limit(4));
-    const docSnapshot = await getDocs(blogRef);
+    const firstFour = query(blogRef, orderBy("title"), limit(4));
+    const docSnapshot = await getDocs(firstFour);
     setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     setLastVisible(docSnapshot.docs[docSnapshot.docs.length - 1]);
   };
 
   console.log("blogs", blogs);
 
-  const updateState = (docSnapshot) => {
+  /*const updateState = (docSnapshot) => {
     const isCollectionEmpty = docSnapshot.size === 0;
     if (!isCollectionEmpty) {
       const blogsData = docSnapshot.docs.map((doc) => ({
@@ -124,9 +123,9 @@ const Home = ({ setActive, user, active }) => {
     const docSnapshot = await getDocs(nextFour);
     updateState(docSnapshot);
     setLoading(false);
-  };
+  };*/
 
-  const searchBlogs = async () => {
+ /* const searchBlogs = async () => {
     const blogRef = collection(db, "blogs");
     const searchTitleQuery = query(blogRef, where("title", "==", searchQuery));
     const searchTagQuery = query(
@@ -154,7 +153,7 @@ const Home = ({ setActive, user, active }) => {
     if (!isNull(searchQuery)) {
       searchBlogs();
     }
-  }, [searchQuery]);
+  }, [searchQuery]);*/
 
   if (loading) {
     return <Spinner />;
@@ -201,7 +200,7 @@ const Home = ({ setActive, user, active }) => {
     }
   };
 
-  const handleChange = (e) => {
+  /*const handleChange = (e) => {
     const { value } = e.target;
     if (isEmpty(value)) {
       console.log("test");
@@ -229,7 +228,7 @@ const Home = ({ setActive, user, active }) => {
     };
   });
 
-  console.log("categoryCount", categoryCount);
+  console.log("categoryCount", categoryCount);*/
 
   return (
     <div className="container-fluid pb-4 pt-4 padding">
@@ -238,14 +237,7 @@ const Home = ({ setActive, user, active }) => {
           <Trending blogs={trendBlogs} />
           <div className="col-md-8">
             <div className="blog-heading text-start py-2 mb-4">Daily Blogs</div>
-            {blogs.length === 0 && location.pathname !== "/" && (
-              <>
-                <h4>
-                  No Blog found with search keyword:{" "}
-                  <strong>{searchQuery}</strong>
-                </h4>
-              </>
-            )}
+            
             {blogs?.map((blog) => (
               <BlogSection
                 key={blog.id}
@@ -255,14 +247,9 @@ const Home = ({ setActive, user, active }) => {
               />
             ))}
 
-            {!hide && (
-              <button className="btn btn-primary" onClick={fetchMore}>
-                Load More
-              </button>
-            )}
+            
           </div>
           <div className="col-md-3">
-            <Search search={search} handleChange={handleChange} />
             <div className="blog-heading text-start py-2 mb-4">Tags</div>
             <Tags tags={tags} />
             <FeatureBlogs title={"Most Popular"} blogs={blogs} />
