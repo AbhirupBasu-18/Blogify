@@ -48,8 +48,8 @@ const Auth = ({ setActive, setUser }) => {
         }
         catch(error){
           const errorCode = error.code;
-          console.log("hi");
-          if(errorCode=="auth/user-not-found"){
+          //console.log("hi");
+          if(errorCode==="auth/user-not-found"){
             return toast.error("Invalid Email");
           }
           else{
@@ -78,7 +78,7 @@ const Auth = ({ setActive, setUser }) => {
           catch(error){
             const errorCode = error.code;
               //console.log(errorCode);
-              if(errorCode=="auth/email-already-in-use"){
+              if(errorCode==="auth/email-already-in-use"){
                 return toast.error("email-already-in-use");
               }
               else{

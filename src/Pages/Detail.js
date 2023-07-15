@@ -9,7 +9,6 @@ import {
   Timestamp,
   updateDoc,
   orderBy,
-  where,
 } from "firebase/firestore";
 import { isEmpty } from "lodash";
 import React, { useState, useEffect } from "react";
@@ -33,7 +32,6 @@ const Detail = ({ setActive, user }) => {
   const [comments, setComments] = useState([]);
   let [likes, setLikes] = useState([]);
   const [userComment, setUserComment] = useState("");
-  const [relatedBlogs, setRelatedBlogs] = useState([]);
 
   useEffect(() => {
     const getRecentBlogs = async () => {
@@ -77,7 +75,7 @@ const Detail = ({ setActive, user }) => {
     setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
     setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
     //const relatedBlogSnapshot = await getDocs(relatedBlogsQuery);
-    const relatedBlogs = [];
+    //const relatedBlogs = [];
     /*relatedBlogSnapshot.forEach((doc) => {
       relatedBlogs.push({ id: doc.id, ...doc.data() });
     });

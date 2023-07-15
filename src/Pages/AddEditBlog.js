@@ -73,7 +73,7 @@ const AddEditBlog = ({ user, setActive }) => {
           }
         },
         (error) => {
-          console.log(error);
+          //console.log(error);
         },
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
@@ -94,10 +94,10 @@ const AddEditBlog = ({ user, setActive }) => {
   }, [id]);
 
   const getBlogDetail = async () => {
-    console.log("hi");
+    //console.log("hi");
     const docRef = doc(db, "blogs", id);
     const snapshot = await getDoc(docRef);
-    console.log("hi");
+    //console.log("hi");
     if (snapshot.exists()) {
       setForm({ ...snapshot.data() });
     }
@@ -134,7 +134,7 @@ const AddEditBlog = ({ user, setActive }) => {
           });
           toast.success("Blog created successfully");
         } catch (err) {
-          console.log(err);
+          //console.log(err);
         }
       } else {
         try {
@@ -146,7 +146,7 @@ const AddEditBlog = ({ user, setActive }) => {
           });
           toast.success("Blog updated successfully");
         } catch (err) {
-          console.log(err);
+          //console.log(err);
         }
       }
     } else {
