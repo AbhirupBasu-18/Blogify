@@ -42,7 +42,7 @@ const Detail = ({ setActive, user }) => {
         limit(5)
       );
       const docSnapshot = await getDocs(recentBlogs);
-      setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setBlogs(docSnapshot?.docs?.map((doc) => ({ id: doc.id, ...doc.data() })));
     };
 
     getRecentBlogs();

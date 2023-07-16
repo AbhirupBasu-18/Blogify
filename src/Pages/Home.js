@@ -28,13 +28,13 @@ const Home = ({ setActive, user, active }) => {
   const [totalBlogs, setTotalBlogs] = useState(null);
   const [likeBlogs, setLikeBlogs] = useState([]);
  // const queryString = useQuery();
-
+ 
   const getTrendingBlogs = async () => {
     const blogRef = collection(db, "blogs");
     const trendQuery = query(blogRef, where("trending", "==", "yes"));
     const querySnapshot = await getDocs(trendQuery);
     let trendBlogs = [];
-    querySnapshot.forEach((doc) => {
+    querySnapshot?.forEach((doc) => {
       trendBlogs.push({ id: doc.id, ...doc.data() });
     });
     setTrendBlogs(trendBlogs);
@@ -44,20 +44,33 @@ const Home = ({ setActive, user, active }) => {
     const likeQuery = query(blogRef, orderBy("likes","desc"), limit(3));
     const likeSnapshot = await getDocs(likeQuery);
     let likeBlogs = [];
-    likeSnapshot.forEach((doc) => {
+    likeSnapshot?.forEach((doc) => {
       likeBlogs.push({ id: doc.id, ...doc.data() });
     });
     setLikeBlogs(likeBlogs);
   };
   useEffect(() => {
+    //console.log("first");
+    setLoading(true);
     getTrendingBlogs();
     //setSearch("");
+    const res1=async()=>{
+      //setLoading(true);
+      await getBlogs();
+      await getlikeBlogs();
+      await getTrendingBlogs();
+      //setHide(false);
+      setLoading(false);
+     // console.log("second");
+    };
     const unsub = onSnapshot(
       collection(db, "blogs"),
       (snapshot) => {
         let list = [];
         let tags = [];
-        snapshot.docs.forEach((doc) => {
+        //console.log("y");
+        snapshot?.docs?.forEach((doc) => {
+          //console.log("x");
           tags.push(...doc.get("tags"));
           list.push({ id: doc.id, ...doc.data() });
         });
@@ -65,31 +78,41 @@ const Home = ({ setActive, user, active }) => {
         setTags(uniqueTags);
         setTotalBlogs(list);
         // setBlogs(list);
-        setLoading(false);
-        setActive("home");
+        //setLoading(false);
+        //setActive("home");
       },
       (error) => {
         console.log(error);
       }
     );
-
+    res1();
+setActive("home");
     return () => {
       unsub();
       getTrendingBlogs();
     };
   }, [setActive, active]);
-
-  useEffect(() => {
-    getBlogs();
-    getlikeBlogs();
-    getTrendingBlogs();
-    //setHide(false);
+  
+  
+  
+  
+  useEffect( () => {
+    const res=async()=>{
+      setLoading(true);
+      await getBlogs();
+      await getlikeBlogs();
+      await getTrendingBlogs();
+      //setHide(false);
+      setLoading(false);
+      //console.log("second");
+    };
+    res();
   }, [active]);
 
   const getBlogs = async () => {
     const blogRef = collection(db, "blogs");
       const docSnapshot = await getDocs(blogRef);
-      setBlogs(docSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setBlogs(docSnapshot?.docs?.map((doc) => ({ id: doc.id, ...doc.data() })));
   };
 
   //console.log("blogs", blogs);
@@ -101,7 +124,7 @@ const Home = ({ setActive, user, active }) => {
   const handleDelete = async (id) => {
     if (window.confirm("Are you sure wanted to delete that blog ?")) {
       try {
-        setLoading("true");
+        //setLoading(true);
         await deleteDoc(doc(db, "blogs", id));
           getTrendingBlogs();
           // eslint-disable-next-line
@@ -110,7 +133,7 @@ const Home = ({ setActive, user, active }) => {
         (snapshot) => {
           let list = [];
           let tags = [];
-          snapshot.docs.forEach((doc) => {
+          snapshot?.docs?.forEach((doc) => {
             tags.push(...doc.get("tags"));
             list.push({ id: doc.id, ...doc.data() });
           });
@@ -125,11 +148,11 @@ const Home = ({ setActive, user, active }) => {
           console.log(error);
         }
       );
-       getBlogs();
-      getlikeBlogs();
-      getTrendingBlogs();
+       await getBlogs();
+       await getlikeBlogs();
+       await getTrendingBlogs();
           toast.success("Blog deleted successfully");
-        setLoading(false);
+        //setLoading(false);
       } catch (err) {
         console.log(err);
       }
@@ -143,7 +166,7 @@ const Home = ({ setActive, user, active }) => {
           <Trending blogs={trendBlogs} />
           <div className="col-md-8">
             <div className="blog-heading text-start py-2 mb-4">Daily Blogs</div>
-            {blogs.length!==0? blogs?.map((blog) => (
+            {blogs?.length!==0? blogs?.map((blog) => (
               <BlogSection
                 key={blog.id}
                 user={user}
