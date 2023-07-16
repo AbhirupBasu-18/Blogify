@@ -41,7 +41,7 @@ const Home = ({ setActive, user, active }) => {
   };
   const getlikeBlogs = async () => {
     const blogRef = collection(db, "blogs");
-    const likeQuery = query(blogRef, orderBy("likes","desc"), limit(3));
+    const likeQuery = query(blogRef, orderBy("likesCount","desc"), limit(3));
     const likeSnapshot = await getDocs(likeQuery);
     let likeBlogs = [];
     likeSnapshot?.forEach((doc) => {

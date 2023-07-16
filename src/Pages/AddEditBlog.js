@@ -22,7 +22,8 @@ const initialState = {
   category: "",
   description: "",
   comments: [],
-  likes: []
+  likes: [],
+  likesCount: 0
 };
 
 const categoryOption = [

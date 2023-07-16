@@ -32,7 +32,7 @@ const Detail = ({ setActive, user }) => {
   const [comments, setComments] = useState([]);
   let [likes, setLikes] = useState([]);
   const [userComment, setUserComment] = useState("");
-
+  let [likesCount, setLikesCount] = useState(0);
   useEffect(() => {
     const getRecentBlogs = async () => {
       const blogRef = collection(db, "blogs");
@@ -74,6 +74,7 @@ const Detail = ({ setActive, user }) => {
     );*/
     setComments(blogDetail.data().comments ? blogDetail.data().comments : []);
     setLikes(blogDetail.data().likes ? blogDetail.data().likes : []);
+    setLikesCount(blogDetail?.data()?.likes?.length);
     //const relatedBlogSnapshot = await getDocs(relatedBlogsQuery);
     //const relatedBlogs = [];
     /*relatedBlogSnapshot.forEach((doc) => {
@@ -109,14 +110,17 @@ const Detail = ({ setActive, user }) => {
         if (index === -1) {
           likes.push(userId);
           setLikes([...new Set(likes)]);
+          setLikesCount([...new Set(likes)].length);
         } else {
           likes = likes.filter((id) => id !== userId);
           setLikes(likes);
+          setLikesCount(likes?.length);
         }
       }
       await updateDoc(doc(db, "blogs", id), {
         ...blog,
         likes,
+        likesCount,
         timestamp: serverTimestamp(),
       });
     }
