@@ -29,9 +29,9 @@ const categoryOption = [
   "Fashion",
   "Technology",
   "Food",
-  "Politics",
+  "Travel",
   "Sports",
-  "Business",
+  "Other",
 ];
 
 const AddEditBlog = ({ user, setActive }) => {
